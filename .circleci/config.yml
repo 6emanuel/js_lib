@@ -70,11 +70,11 @@ jobs:
                 name: Deploy to S3
                 command: |
                     if [ "${CIRCLE_BRANCH}" == "develop" ]; then
-                        aws --region sa-east-1 s3 sync build s3://ambientefrontend/develop --delete
+                        aws --region sa-east-1 s3 sync build s3://ambientefrontend-develop/ --delete
                     elif [ "${CIRCLE_BRANCH}" == "staging" ]; then
-                        aws --region sa-east-1 s3 sync build s3://ambientefrontend/staging --delete
+                        aws --region sa-east-1 s3 sync build s3://ambientefrontend-staging/ --delete
                     elif [ "${CIRCLE_BRANCH}" == "master" ]; then
-                        aws --region sa-east-1 s3 sync build s3://ambientefrontend/master --delete
+                        aws --region sa-east-1 s3 sync build s3://ambientefrontend/ --delete
                     fi
 workflows:
     version: 2
