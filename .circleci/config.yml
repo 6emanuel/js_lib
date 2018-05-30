@@ -37,11 +37,11 @@ jobs:
                 name: Building
                 command: |
                     if [ "${CIRCLE_BRANCH}" == "develop" ]; then
-                        npm run build PUBLIC_URL=https://s3-sa-east-1.amazonaws.com/ambientefrontend-develop/
+                        PUBLIC_URL=https://s3-sa-east-1.amazonaws.com/ambientefrontend-develop/ npm run build
                     elif [ "${CIRCLE_BRANCH}" == "staging" ]; then
-                        npm run build PUBLIC_URL=https://s3-sa-east-1.amazonaws.com/ambientefrontend-staging/
+                        PUBLIC_URL=https://s3-sa-east-1.amazonaws.com/ambientefrontend-staging/ npm run build
                     elif [ "${CIRCLE_BRANCH}" == "master" ]; then
-                        npm run build PUBLIC_URL=https://s3-sa-east-1.amazonaws.com/ambientefrontend/
+                        PUBLIC_URL=https://s3-sa-east-1.amazonaws.com/ambientefrontend/ npm run build
                     fi
             # Cache the build folder for the deploy job
             - save_cache:
