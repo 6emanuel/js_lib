@@ -33,15 +33,14 @@ jobs:
                 command: npm run test
             # Build project with different configuration based on
             # the current branch
+            # O ambiente de producao(master) está separado para usar uma URL diferente
             - run:
                 name: Building
                 command: |
-                    if [ "${CIRCLE_BRANCH}" == "develop" ]; then
-                        PUBLIC_URL=https://s3-sa-east-1.amazonaws.com/ambientefrontend-develop/ npm run build
-                    elif [ "${CIRCLE_BRANCH}" == "staging" ]; then
-                        PUBLIC_URL=https://s3-sa-east-1.amazonaws.com/ambientefrontend-staging/ npm run build
-                    elif [ "${CIRCLE_BRANCH}" == "master" ]; then
-                        PUBLIC_URL=https://s3-sa-east-1.amazonaws.com/ambientefrontend/ npm run build
+                    if [ "${CIRCLE_BRANCH}" == "master" ]; then
+                        PUBLIC_URL=https://s3-sa-east-1.amazonaws.com/ambientefrontend-master/ npm run build
+                    else
+                        PUBLIC_URL=https://s3-sa-east-1.amazonaws.com/ambientefrontend-${CIRCLE_BRANCH}/ npm run build
                     fi
             # Cache the build folder for the deploy job
             - save_cache:
@@ -75,14 +74,7 @@ jobs:
             # Deploy to the S3 bucket corresponding to the current branch
             - run:
                 name: Deploy to S3
-                command: |
-                    if [ "${CIRCLE_BRANCH}" == "develop" ]; then
-                        aws --region sa-east-1 s3 sync build s3://ambientefrontend-develop/ --delete
-                    elif [ "${CIRCLE_BRANCH}" == "staging" ]; then
-                        aws --region sa-east-1 s3 sync build s3://ambientefrontend-staging/ --delete
-                    elif [ "${CIRCLE_BRANCH}" == "master" ]; then
-                        aws --region sa-east-1 s3 sync build s3://ambientefrontend/ --delete
-                    fi
+                command: aws --region sa-east-1 s3 sync build s3://ambientefrontend-${CIRCLE_BRANCH}/ --delete
 workflows:
     version: 2
     # The build and deploy workflow
