@@ -38,9 +38,9 @@ jobs:
                 name: Building
                 command: |
                     if [ "${CIRCLE_BRANCH}" == "master" ]; then
-                        PUBLIC_URL=https://s3-sa-east-1.amazonaws.com/ambientefrontend-master/ npm run build
+                        PUBLIC_URL=http://ambientefrontend-master.s3-website-sa-east-1.amazonaws.com npm run build
                     else
-                        PUBLIC_URL=https://s3-sa-east-1.amazonaws.com/ambientefrontend-${CIRCLE_BRANCH}/ npm run build
+                        PUBLIC_URL=http://ambientefrontend-${CIRCLE_BRANCH}.s3-website-sa-east-1.amazonaws.com npm run build
                     fi
             # Cache the build folder for the deploy job
             - save_cache:
