@@ -3,9 +3,10 @@ const HtmlWebPackPlugin = require('html-webpack-plugin')
 const path = require('path')
 
 module.exports = {
-  entry: {
-    main: './src/index.js'
-  },
+  entry: [
+    'bootstrap-loader',
+    './src/index.js'
+  ],
   output: {
     filename: '[name].[hash].js',
     path: path.resolve('./dist')
@@ -22,8 +23,22 @@ module.exports = {
         use: [
           { loader: 'style-loader' },
           { loader: 'css-loader' },
-          { loader: 'sass-loader' }
+          { loader: 'sass-loader' },
+          {
+            loader: 'sass-resources-loader',
+            options: {
+              resources: './src/assets/stylesheets/variables.scss'
+            }
+          }
         ]
+      },
+      {
+        test: /\.(png|jpe?g|gif|svg)(\?.*)?$/,
+        loader: 'url-loader'
+      },
+      {
+        test: /\.(woff2?|eot|ttf|otf)(\?.*)?$/,
+        loader: 'url-loader'
       }
     ]
   },
